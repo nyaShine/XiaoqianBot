@@ -1,0 +1,60 @@
+appid: appid
+bot_owner_id: bot_owner_id
+dice_random:
+  default_sides: 100
+  max_dice_sides: 10000
+  max_dice_times: 20
+  max_expression_length: 60
+email:
+  smtp_port: 465
+  smtp_server: smtp.163.com
+email_verification:
+  chars: BCDFGHJKMNPQRTVWXY23456789
+  code_length: 6
+  max_domain_counts: 5
+  redis:
+    failed_ttl: 30
+    guild_key_pattern: guild_id:{guild_id}-author_id:{author_id}
+    ttl: 120
+guild_detail_expiry_time: 600
+message_limit_seconds: 36000
+minecraft_servers:
+  max_server_address_length: 255
+  max_server_description_length: 50
+  max_server_name_length: 15
+  redis:
+    status_query_failed_ttl: 60
+    status_query_timeout: 180
+mysql:
+  database: xiaoqianbot
+  host: localhost
+  port: 3306
+question_answer_system:
+  max_qa_per_channel: 2000
+  max_question_length: 50
+redirect_url: redirect_url
+redis:
+  db: 0
+  host: localhost
+  max_connections: 32
+  port: 6379
+  socket_connect_timeout: 5
+  socket_timeout: 30
+rss_subscription:
+  crawler_sleep_time: 180
+  max_channels_per_guild: 3
+  max_feeds_per_channel: 10
+  message_length_limit: 800
+  min_feed_interval: 30
+  rss_fetch_timeout: 10
+  rss_item_max_age: 90
+  rss_parse_max_workers: 10
+  rss_truncate_length: 255
+  time_range: 6:05-23:50
+token: token
+valid_role_types:
+- 机器人管理
+- 问答管理
+- mc管理
+- rss订阅管理
+- 邮箱认证管理

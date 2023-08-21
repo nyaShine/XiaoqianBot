@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>重定向页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            overflow-x: hidden;
+        }
+        .container {
+            text-align: center;
+            max-width: 800px;
+            padding: 20px;
+            margin: auto;
+        }
+		.link {
+		    word-break: break-all;
+		    color: #007BFF;
+		    cursor: pointer;
+		}
+        .link:hover {
+            text-decoration: underline;
+        }
+		.button {
+		    font-size: 18px;
+		    margin-top: 20px;
+		    padding: 10px 20px;
+		    border: none;
+		    background-color: #007BFF;
+		    color: #fff;
+		    cursor: pointer;
+		}
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            color: #fff;
+            text-align: center;
+            border-radius: 2px;
+            padding: 10px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 20px;
+            background-color: #444;
+        }
+        .show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+        @-webkit-keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+        @-webkit-keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+        .hint {
+            color: #888;
+            font-size: 0.8em;
+        }
+		@media (max-width: 600px) {
+		    body {
+		        font-size: 16px;
+		    }
+		    .container {
+		        padding: 30px;
+		        max-width: 90%;
+		    }
+		    .button {
+		        font-size: 20px;
+		        padding: 15px 30px;
+		    }
+		    .toast {
+		        font-size: 18px;
+		    }
+		}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>您即将前往</h1>
+        <p id="target" class="link"></p>
+        <p class="hint">点击链接以复制<br>手机QQ或微信中请长按链接复制</p>
+        <p>您即将离开我们的网站并转到第三方网站。请注意，我们并未审查或控制此第三方网站的内容，因此我们对您在该网站上的任何行为或遭遇的任何损失或损害不承担任何责任。您的使用及依赖该第三方网站的任何信息，产品和服务应基于您的判断和风险。请在访问或使用此类第三方网站时谨慎操作。</p>
+        <button id="button" class="button">点击以重定向</button>
+    </div>
+    <div id="toast" class="toast">链接已复制到剪贴板</div>
+    <div id="fail-toast" class="toast">复制失败，请长按链接选中后复制</div>
+    <script>
+        var target = window.location.search.substring(1);
+        if (!/^https?:\/\//i.test(target)) {
+            target = 'http://' + target;
+        }
+        document.getElementById('target').innerText = target;
+        document.getElementById('target').addEventListener('click', function() {
+            navigator.clipboard.writeText(target).then(function() {
+                var toast = document.getElementById('toast');
+                toast.className = 'toast show';
+                setTimeout(function(){ toast.className = 'toast'; }, 3000);
+            }, function(err) {
+                var failToast = document.getElementById('fail-toast');
+                failToast.className = 'toast show';
+                setTimeout(function(){ failToast.className = 'toast'; }, 3000);
+            });
+        });
+        document.getElementById('button').addEventListener('click', function() {
+            window.location.href = target;
+        });
+    </script>
+</body>
+</html>
