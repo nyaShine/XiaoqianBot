@@ -42,7 +42,7 @@ class QASystem:
                 FROM question_answer qa
                 LEFT JOIN question_answer_image qai ON qa.question_answer_id = qai.question_answer_id
                 WHERE {query_conditions} AND qa.guild_id = %s
-                GROUP BY qa.guild_question_id
+                GROUP BY qa.guild_question_id, qa.question, qa.answer
             """, guild_id)
 
             results = cursor.fetchall()
