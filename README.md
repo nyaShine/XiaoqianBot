@@ -18,31 +18,6 @@
   </p>
 </div>
 
-<details>
-  <summary>目录</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">关于项目</a>
-      <ul>
-        <li><a href="#built-with">构建工具</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">开始使用</a>
-      <ul>
-        <li><a href="#prerequisites">前提条件</a></li>
-        <li><a href="#installation">安装</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">使用</a></li>
-    <li><a href="#roadmap">路线图</a></li>
-    <li><a href="#contributing">贡献</a></li>
-    <li><a href="#license">许可证</a></li>
-    <li><a href="#contact">联系</a></li>
-    <li><a href="#acknowledgments">致谢</a></li>
-  </ol>
-</details>
-
 ## 关于项目
 QQ频道内测已超过2年，随着校园频道用户数量的增加，频道管理和信息服务的需求也不断增加。为了提高频道管理效率和用户体验，我们[东华大学镜月湖畔](https://pd.qq.com/s/25z4gtfil) QQ 频道运营团队决定开发一款针对 QQ 校园频道的综合服务机器人[小千校园助手](https://qun.qq.com/qunpro/robot/share?robot_appid=102057268)。
 
@@ -150,7 +125,7 @@ run.bat
 ./run.sh
 ```
 
-注意：目前`run.bat`和`run.sh`的稳健性极差，你也可以通过以下命令安装项目依赖并运行项目：
+注意：`run.bat`和`run.sh`中不会强制变更已安装的Python库的版本，可能导致依赖版本不兼容问题，你也可以通过以下命令安装项目依赖并运行项目：
 ```sh
 pip install -r requirements.txt
 python3 main.py
@@ -194,12 +169,8 @@ pip install module_name==version
 
 ## 路线图
 
-- [ ] 机器人配置指引
 - [ ] 自定义订阅
-- [ ] 注释报错改为中文
 - [ ] mc server增加基岩版支持
-
-查看`todo.md`以获取完整的功能列表（和已知问题）。
 
 <p align="right">(<a href="#readme-top">返回顶部</a>)</p>
 
