@@ -4,6 +4,7 @@ from botpy import logging
 from botpy.message import Message
 
 from handler.handle_authenticate_guild import handle_authenticate_guild
+from handler.handle_channel_list import handle_channel_list
 from handler.handle_dice_random import dice_random
 from handler.handle_guild_detail import handle_guild_detail
 from handler.handle_identity_group import handle_admin
@@ -15,6 +16,7 @@ from handler.handle_ping import handle_ping
 from handler.handle_question import qa
 from handler.handle_rss_subscription import rss
 from handler.handle_subscription import handle_subscription
+from handler.handle_youth_study import handle_youth_study
 from utils.send_message_with_log import reply_with_log
 
 _log = logging.get_logger()
@@ -44,9 +46,11 @@ async def at_message_create_handler(client, message: Message):
         "/随机": dice_random.on_command,
         "/设置管理": handle_admin,
         "/查询身份组": handle_query_identity_group,
+        "/查询子频道": handle_channel_list,
         "/查询频道详情": handle_guild_detail,
         "/ping": handle_ping,
-        "/频道认证": handle_authenticate_guild
+        "/频道认证": handle_authenticate_guild,
+        "/青年大学习": handle_youth_study
     }
 
     if match:

@@ -51,6 +51,9 @@ class RSSCrawler:
 
     async def __aexit__(self, exc_type, exc, tb):
         await self.close()
+        if self.session:
+            await self.session.close()
+            self.session = None
 
     async def close(self):
         await self.session.close()
@@ -182,8 +185,7 @@ class RSSCrawler:
 
                                     sql = "INSERT INTO rss_item (rss_feed_id, title, link, description, published_date) VALUES (%s, %s, %s, %s, %s)"
                                     cursor.execute(sql, (
-                                        rss_feed_id, title, link, rss_item['description'],
-                                        published_date))
+                                        rss_feed_id, title, link, rss_item.get('description', ''), published_date))
                                     conn.commit()  # 提交事务
 
                         except Exception as e:
@@ -205,6 +207,11 @@ class RSSCrawler:
                             cursor.execute(sql, (rss_feed_id, subscription['channel_id'], subscription['max_age']))
                             rss_items = cursor.fetchall()
                             for rss_item in rss_items:
+                                sql = "SELECT rss_item_id FROM rss_item WHERE rss_item_id = %s"
+                                cursor.execute(sql, (rss_item['rss_item_id'],))
+                                if cursor.fetchone() is None:
+                                    _log.error("rss_item_id does not exist in rss_item table.")
+                                    continue
                                 if await self.send_rss_item(self.client, rss_item, subscriptions):
                                     sql = "INSERT INTO rss_item_delivery (rss_item_id, guild_id, channel_id) VALUES (%s, %s, %s)"
                                     cursor.execute(sql, (
@@ -214,6 +221,7 @@ class RSSCrawler:
             finally:
                 if conn:
                     conn.close()
+                _log.info("爬虫运行结束")
                 await asyncio.sleep(self.crawler_sleep_time)
 
 
