@@ -15,6 +15,7 @@ from utils.channel_utils import get_channel_name_from_redis
 from utils.get_help import bot_features_dict
 from utils.guild_utils import check_guild_authenticity
 from utils.mysql_utils import get_mysql_conn
+from utils.parse_date import parse_date
 from utils.redis_utils import RedisConnection
 from utils.roles import is_rss_subscription_admin_from_message
 from utils.send_message_with_log import reply_with_log, post_with_log
@@ -169,9 +170,13 @@ class RSSCrawler:
                                 cursor.execute(sql, (link,))
                                 result = cursor.fetchone()
                                 if not result:
-                                    published_date = rss_item.get('published', None)
-                                    if published_date:
-                                        published_date = datetime.strptime(published_date, "%a, %d %b %Y %H:%M:%S %Z")
+                                    published_date_str = rss_item.get('published', None)
+                                    published_date = None  # 默认为None
+                                    if published_date_str:
+                                        try:
+                                            published_date = parse_date(published_date_str)
+                                        except ValueError as e:
+                                            _log.error(f"解析日期时间时发生错误：{e}")
                                     title = self.truncate_string(rss_item['title'], self.rss_truncate_length)
                                     link = self.truncate_string(rss_item['link'], self.rss_truncate_length)
 
