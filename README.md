@@ -209,14 +209,3 @@ pip install module_name==version
 [issues-url]: https://github.com/nyaShine/XiaoqianBot/issues
 [license-shield]: https://img.shields.io/github/license/nyaShine/XiaoqianBot.svg?style=for-the-badge
 [license-url]: https://github.com/nyaShine/XiaoqianBot/blob/main/LICENSE
-
-## 建议
-
-在`site-packages/botpy/client.py`文件中，为了确保更长的响应时间，建议将默认的超时时间从5秒修改为60秒。具体修改如下：
-
-```python
-# 原代码
-# timeout: int = 5
-
-# 建议修改为
-timeout: int = 60

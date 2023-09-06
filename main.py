@@ -15,6 +15,10 @@ _log = get_logger()
 
 
 class MyClient(botpy.Client):
+    def __init__(self, intents):
+        # 调用父类的初始化方法，并设置 timeout 为 60
+        super().__init__(intents, timeout=60)
+
     async def on_ready(self):
         _log.info(f"robot 「{self.robot.name}」 on_ready!")
 
