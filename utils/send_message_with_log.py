@@ -3,7 +3,6 @@ from botpy.message import Message
 
 from utils.encode_urls import encode_urls_in_text
 
-
 _log = get_logger()
 
 
@@ -11,6 +10,24 @@ def split_content(content, max_length=1000):
     if not content:
         return [""]
     return [content[i:i + max_length] for i in range(0, len(content), max_length)]
+
+
+async def post_message_from_event_with_log(client, channel_id, event_id, content, encode_urls=False):
+    content = encode_urls_in_text(content, encode_urls)
+    contents = split_content(content)
+
+    for content in contents:
+        try:
+            await client.api.post_message(channel_id=channel_id, event_id=event_id, content=content)
+        except Exception as e:
+            if 'url not allowed' in str(e):
+                content = "所有的.已经被替换为。\n\n" + content.replace(".", "。")
+                await client.api.post_message(channel_id=channel_id, event_id=event_id, content=content)
+            else:
+                _log.error(f"{e}")
+
+        content_escaped_newlines = content.replace('\n', '\\n')
+        _log.info(content_escaped_newlines)
 
 
 async def post_dms_from_message_with_log(client, message: Message, content, encode_urls=False):
@@ -42,7 +59,7 @@ async def post_dms_from_message_with_log(client, message: Message, content, enco
             _log.error(f"URL不允许，已将'.'替换为'。'。Content: {content}")
         else:
             _log.error(f"发送私信失败。异常：{e}")
-            raise e
+            _log.error(f"{e}")
 
 
 async def post_dms_with_log(client, message, content, encode_urls=False):
@@ -69,7 +86,7 @@ async def post_dms_with_log(client, message, content, encode_urls=False):
             _log.error(f"URL不允许，已将'.'替换为'。'。Content: {content}")
         else:
             _log.error(f"发送私信失败。异常：{e}")
-            raise e
+            _log.error(f"{e}")
 
 
 async def reply_with_log(message, content, quote=True, at=True, encode_urls=False, file_image=None, **kwargs):
@@ -93,7 +110,7 @@ async def reply_with_log(message, content, quote=True, at=True, encode_urls=Fals
                 await message.reply(content=content, message_reference=message_reference, file_image=file_image,
                                     **kwargs)
             else:
-                raise e
+                _log.error(f"{e}")
 
         content_escaped_newlines = content.replace('\n', '\\n')
         _log.info(content_escaped_newlines)
@@ -115,7 +132,7 @@ async def cross_channel_reply_with_log(client, message, content, channel_id, at=
                 content = "所有的.已经被替换为。\n\n" + content.replace(".", "。")
                 await client.api.post_message(channel_id=channel_id, msg_id=message.id, content=content, **kwargs)
             else:
-                raise e
+                _log.error(f"{e}")
 
         content_escaped_newlines = content.replace('\n', '\\n')
         _log.info(content_escaped_newlines)
@@ -137,7 +154,7 @@ async def post_with_log(client, channel_id, content, encode_urls=False, **kwargs
                 await client.api.post_message(channel_id=channel_id, content=content,
                                               message_reference=message_reference, **kwargs)
             else:
-                raise e
+                _log.error(f"{e}")
 
         content_escaped_newlines = content.replace('\n', '\\n')
         _log.info(content_escaped_newlines)
