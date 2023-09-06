@@ -7,10 +7,10 @@ from handler.handle_authenticate_guild import handle_authenticate_guild
 from handler.handle_channel_list import handle_channel_list
 from handler.handle_dice_random import dice_random
 from handler.handle_guild_detail import handle_guild_detail
-from handler.handle_identity_group import handle_admin
+from handler.handle_role import handle_admin
 from handler.handle_email_verification import handle_email_verification_at_message
 from handler.handle_help import handle_help
-from handler.handle_identity_group import handle_query_identity_group
+from handler.handle_role import handle_query_identity_group
 from handler.handle_minecraft_server import handle_minecraft_server
 from handler.handle_ping import handle_ping
 from handler.handle_question import qa
