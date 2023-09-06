@@ -24,19 +24,19 @@ class MyClient(botpy.Client):
 
     # 当收到@机器人的消息时
     async def on_at_message_create(self, message: Message):
-        await at_message_create_handler(self, message)
+        asyncio.create_task(at_message_create_handler(self,message))
 
     # 当收到用户发给机器人的私信消息时
     async def on_direct_message_create(self, message: DirectMessage):
-        await direct_message_create_handler(self, message)
+        asyncio.create_task(direct_message_create_handler(self, message))
 
     # 当收到用户创建主题时
     async def on_open_forum_thread_create(self, open_forum_thread: OpenThread):
-        await open_forum_thread_create_handler(self, open_forum_thread)
+        asyncio.create_task(open_forum_thread_create_handler(self, open_forum_thread))
 
 
 async def main():
-    # 订阅所有事件
+    # 订阅事件
     intents = botpy.Intents(public_guild_messages=True,
                             direct_message=True,
                             open_forum_event=True)
