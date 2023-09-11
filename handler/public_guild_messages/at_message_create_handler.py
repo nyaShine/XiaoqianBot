@@ -15,7 +15,6 @@ from handler.handle_minecraft_server import handle_minecraft_server
 from handler.handle_ping import handle_ping
 from handler.handle_question import qa
 from handler.handle_rss_subscription import rss
-from handler.handle_subscription import handle_subscription
 from handler.handle_youth_study import handle_youth_study
 from utils.send_message_with_log import reply_with_log
 
@@ -40,7 +39,6 @@ async def at_message_create_handler(client, message: Message):
         "/菜单": handle_help,
         "/问": qa.on_command,
         "/rss订阅": rss.on_command,
-        "/订阅": handle_subscription,
         "/邮箱认证": handle_email_verification_at_message,
         "/mc": handle_minecraft_server,
         "/随机": dice_random.on_command,

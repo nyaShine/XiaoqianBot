@@ -278,6 +278,11 @@ class RSSSystem:
 
         # 解码HTML实体
         url = html.unescape(url)
+
+        # 如果添加的rssfeed为rsshub，则将https://rsshub.app替换为http://localhost:1200
+        if "https://rsshub.app" in url:
+            url = url.replace("https://rsshub.app", "http://localhost:1200")
+
         # 检查URL是否有效
         try:
             timeout = aiohttp.ClientTimeout(total=config["rss_subscription"]["rss_fetch_timeout"])  # 设置超时时间
