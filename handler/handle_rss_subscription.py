@@ -183,9 +183,16 @@ class RSSCrawler:
                                     title = self.truncate_string(rss_item['title'], self.rss_truncate_length)
                                     link = self.truncate_string(rss_item['link'], self.rss_truncate_length)
 
+                                    # 清除description中的HTML标签
+                                    description = self.clean_html(rss_item.get('description', ''))
+
+                                    # 如果description长度超过限制，则只保存前面的部分
+                                    if len(description) > 1000:
+                                        description = description[:1000]
+
                                     sql = "INSERT INTO rss_item (rss_feed_id, title, link, description, published_date) VALUES (%s, %s, %s, %s, %s)"
                                     cursor.execute(sql, (
-                                        rss_feed_id, title, link, rss_item.get('description', ''), published_date))
+                                        rss_feed_id, title, link, description, published_date))
                                     conn.commit()  # 提交事务
 
                         except Exception as e:
