@@ -112,11 +112,11 @@
     <div id="toast" class="toast">链接已复制到剪贴板</div>
     <div id="fail-toast" class="toast">复制失败，请长按链接选中后复制</div>
 	<script>
-	    function getFullUrl() {
-	        var hash = window.location.hash.substring(1);
-	        var search = window.location.search.substring(1);
-	        return decodeURIComponent(search) + '#' + hash;
-	    }
+        function getFullUrl() {
+            var hash = window.location.hash.substring(1);
+            var search = window.location.search.substring(1);
+            return decodeURIComponent(search) + (hash ? ('#' + hash) : '');
+        }
 
 	    var target = getFullUrl();
 	    if (!/^https?:\/\//i.test(target)) {
